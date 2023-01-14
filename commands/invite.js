@@ -11,6 +11,6 @@ module.exports = {
 
     // Define interaction function
     async execute(interaction) {
-        await interaction.reply({ content: `Thank you so much for considering inviting me to another server!\nBot Invite Link: ${inviteURL}`, ephemeral: true });
+        await interaction.reply({ content: `Thank you so much for considering inviting me to another server!\n\nBot Invite Link: ${inviteURL}\n\nJust add the bot to your server, and use the /setup in that server to get started.`, ephemeral: true });
     },
 };

@@ -204,7 +204,7 @@ module.exports = {
                 const emojiGreenTick = ':white_check_mark:';
                 // formatEmoji('✅');
                 embed.setTitle(`${emojiGreenTick} Set up complete! ${emojiGreenTick}`);
-                embed.setDescription(`Thank you for adding ${userMention(botInGuild.id)} to your server. :heart:\n\nBy simply adding me to your server, you are helping charity fundraisers promote themselves, raise money and hopefully make a difference to someone in need.\n\nConsider sharing the bot to other servers to further support our fundraiers! Use '/invite' to obtain the bot's invite link.`);
+                embed.setDescription(`Thank you for adding ${userMention(botInGuild.id)} to your server. :heart:\n\nBy simply adding me to your server, you are helping charity fundraisers promote themselves, raise money and hopefully make a difference to someone in need.\n\nConsider sharing the bot to other servers to further support our fundraiers! Use '/invite' to obtain the bot's invite link.\nA message has been sent in ${channelMention(channelId)} allowing users to assign/unassign ${roleMention(pingRole.id)}. It's recommended you pin this message to the channel so it's easier to access.`);
                 embed.spliceFields(0, 1);
                 await interaction.editReply({ embeds: [embed] });
             });

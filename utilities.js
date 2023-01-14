@@ -1,3 +1,5 @@
+const { EmbedBuilder } = require('discord.js');
+const { botIconURL, embedColour } = require('./config.json');
 // File for various functions used accross the program
 
 module.exports = {
@@ -83,5 +85,12 @@ module.exports = {
 
             await interaction.followUp(message);
         }
+    },
+
+    templateAnnouncementEmbed() {
+        return new EmbedBuilder()
+            .setColor(embedColour)
+            .setThumbnail(botIconURL)
+            .setFooter({ text: 'Want us to sponsor your fundraiser? Join our Discord server (https://discord.gg/7JNT7nzsv3) and fill out the form.', iconURL: botIconURL });
     },
 };

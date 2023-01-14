@@ -16,7 +16,10 @@ module.exports = {
         .addStringOption(option =>
             option.setName('promo_image_url')
                 .setDescription('URL of the promo image to display in the announcement embed.')
-                .setRequired(true)),
+                .setRequired(true))
+        .addStringOption(option =>
+            option.setName('message')
+                .setDescription('The message to put in the announcement.')),
 
     // Define interaction function
     async execute(interaction) {
@@ -57,6 +60,7 @@ module.exports = {
             // If successfully loaded...
             if (guild && channel && role) {
                 const imageURL = interaction.options.getString('promo_image_url');
+                const message = interaction.options.getString('message');
 
                 // Retrieve raffle and fundraiser data
                 const raffle = await Raffles.findOne({ where: { ID: interaction.options.getString('id') } });
@@ -65,15 +69,15 @@ module.exports = {
                 // Construct announcement
                 const embed = new EmbedBuilder()
                     .setColor(embedColour)
-                    .setTitle(':tickets:' + raffle.TITLE + ':tickets:')
+                    .setTitle(':tickets: ' + raffle.TITLE + ' :tickets:')
                     .setURL(raffle.URL)
+                    .setDescription(`${message}\n\nClick the link in the title if you are interested!\n\nEnds ${time(raffle.DATE_END, 'R')} (${time(raffle.DATE_END)})`)
                     .addFields(
                         { name: 'Fundraiser:', value: `'${fundraiser.TITLE}'\n${fundraiser.URL}` },
                         { name: `This Fundraiser Supports ${fundraiser.CHARITY}`, value: `${fundraiser.CAUSE} For more information, click the fundraiser link.` },
                         { name: 'Tickets: ', value: `${raffle.NO_OF_TICKETS - raffle.TICKETS_SOLD} remaining, £${raffle.PRICE_PER_TICKET} per ticket` },
                         { name: 'Prizes:', value: `${raffle.PRIZE} (worth £${raffle.PRIZE_COST})` },
                     )
-                    .setDescription(`Raffle ends: ${time(raffle.DATE_END, 'R')} (${time(raffle.DATE_END)})`)
                     .setThumbnail(botIconURL)
                     .setImage(imageURL);
 
