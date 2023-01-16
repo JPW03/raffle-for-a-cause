@@ -18,7 +18,11 @@ module.exports = {
     async execute(interaction) {
 
         const guildId = interaction.guildId;
-        const guildInDB = (await JoinedGuilds.findOne({ where: { ID: guildId } })).dataValues;
+        const guildInDB = {
+            ID: guildId,
+            ANNOUNCEMENTS_CHANNEL_ID: null,
+            PING_ROLE_ID: null,
+        };
 
         // Fetch guild object (for calling name in messages)
         const guild = await interaction.client.guilds.fetch(guildId);
@@ -51,7 +55,7 @@ module.exports = {
         const embed = new EmbedBuilder()
             .setColor(embedColour)
             .setTitle(':heart: Thank you for adding Raffle For A Cause to your server!')
-            .setDescription(`This bot will use a specified announcements channel to announce new raffles and winners. A message will be sent allowing users to assign themselves a ping role.\n\nPlease create this announcements channel (if it isn't already created). Ensure this channel allows the role ${roleMention(botRole.id)} to send messages.\n\nPress 'Continue?' when the channel is created.`);
+            .setDescription(`This bot will use a specified announcements channel to announce new raffles and winners. A message will be sent allowing users to assign themselves a ping role.\n\nIn the next step, you will be able to select which channel to use as the bot's announcement channel. Please create this announcements channel (if it isn't already created). Ensure this channel allows the role ${roleMention(botRole.id)} to send messages.\n\nPress 'Continue?' when you are ready to select the channel.`);
 
         // Add warning to embed if the server is already setup
         if (guildInDB.ANNOUNCEMENTS_CHANNEL_ID && guildInDB.PING_ROLE_ID) {
@@ -65,8 +69,8 @@ module.exports = {
 
 
         // Listener for interactions with the continue button
-        const filter1 = i => i.customId === 'continue' && i.user.id === interaction.user.id;
-        const continueCollector = interaction.channel.createMessageComponentCollector({ filter1, time: timeout });
+        let filter = i => i.customId === 'continue' && i.user.id === interaction.user.id;
+        const continueCollector = interaction.channel.createMessageComponentCollector({ filter, time: timeout });
 
         // Time out listener
         continueCollector.on('end', collected => {
@@ -90,8 +94,8 @@ module.exports = {
             i.update({ components: [channelSelect], embeds: [embed] });
 
             // Listener for channel selection
-            const filter2 = i2 => i2.customId === 'channel' && i2.user.id === interaction.user.id;
-            const channelCollector = i.channel.createMessageComponentCollector({ filter2, time: timeout });
+            filter = i2 => i2.customId === 'channel' && i2.user.id === interaction.user.id;
+            const channelCollector = i.channel.createMessageComponentCollector({ filter, time: timeout });
 
             // Time out listener
             channelCollector.on('end', collected => {
@@ -204,7 +208,7 @@ module.exports = {
                 const emojiGreenTick = ':white_check_mark:';
                 // formatEmoji('✅');
                 embed.setTitle(`${emojiGreenTick} Set up complete! ${emojiGreenTick}`);
-                embed.setDescription(`Thank you for adding ${userMention(botInGuild.id)} to your server. :heart:\n\nBy simply adding me to your server, you are helping charity fundraisers promote themselves, raise money and hopefully make a difference to someone in need.\n\nConsider sharing the bot to other servers to further support our fundraiers! Use '/invite' to obtain the bot's invite link.\nA message has been sent in ${channelMention(channelId)} allowing users to assign/unassign ${roleMention(pingRole.id)}. It's recommended you pin this message to the channel so it's easier to access.`);
+                embed.setDescription(`Thank you for adding ${userMention(botInGuild.id)} to your server. :heart:\n\nBy simply adding me to your server, you are helping charity fundraisers promote themselves, raise money and hopefully make a difference to someone in need.\n\nConsider sharing the bot to other servers to further support our fundraiers! Use '/invite' to obtain the bot's invite link.\n\nA message has been sent in ${channelMention(channelId)} allowing users to assign/unassign ${roleMention(pingRole.id)}. It's recommended you pin this message to the channel so it's easier to access.`);
                 embed.spliceFields(0, 1);
                 await interaction.editReply({ embeds: [embed] });
             });

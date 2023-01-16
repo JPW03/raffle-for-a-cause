@@ -13,31 +13,36 @@ const Raffles = require('./models/raffle.js')(sequelize, Sequelize.DataTypes);
 const Fundraisers = require('./models/fundraiser.js')(sequelize, Sequelize.DataTypes);
 const JoinedGuilds = require('./models/server.js')(sequelize, Sequelize.DataTypes);
 
+
 // Table related functions
-// Reflect.defineProperty(JoinedGuilds.prototype, 'getDiscordObjects', {
-// 	value: async (client, entry, guild, channel, role) => {
-// 		try {
-// 			guild = await client.guilds.fetch(entry.ID);
+Reflect.defineProperty(JoinedGuilds.prototype, 'getDiscordObjects', {
+	value: async (client, entry) => {
+		try {
+			entry.guild = await client.guilds.fetch(entry.ID);
+			// console.log(entry.guild);
 
-// 			try {
-// 				channel = await guild.channels.fetch(entry.ANNOUNCEMENTS_CHANNEL_ID);
-// 			}
-// 			catch {
-// 				log(`Couldn't fetch channel ${entry.ANNOUNCEMENTS_CHANNEL_ID} in ${guild.name} (${entry.ID}). Deleted channel?`);
-// 			}
+			try {
+				entry.channel = await entry.guild.channels.fetch(entry.ANNOUNCEMENTS_CHANNEL_ID);
+				// console.log(entry.channel);
+			}
+			catch {
+				log(`Couldn't fetch channel ${entry.ANNOUNCEMENTS_CHANNEL_ID} in ${entry.guild.name} (${entry.ID}). Deleted channel?`);
+			}
 
-// 			try {
-// 				role = await guild.roles.fetch(entry.PING_ROLE_ID);
-// 			}
-// 			catch {
-// 				log(`Couldn't fetch channel ${entry.} in ${guild.name} (${guildID}). Deleted channel?`);
-// 			}
-// 		}
-// 		catch {
-// 			log(`Couldn't fetch guild ${guildID} from client. Bot possibly kicked from guild.`);
-// 		}
-// 	},
-// });
+			try {
+				entry.role = await entry.guild.roles.fetch(entry.PING_ROLE_ID);
+				// console.log(entry.role);
+			}
+			catch {
+				log(`Couldn't fetch role ${entry.PING_ROLE_ID} in ${entry.guild.name} (${entry.ID}). Deleted role?`);
+			}
+		}
+		catch {
+			log(`Couldn't fetch guild ${entry.ID} from client. Bot possibly kicked from guild.`);
+		}
+	},
+});
+
 
 // Link property Fundraiser to Raffle where the ID of the
 //  Fundraiser is the FundraiserID of the Raffle
