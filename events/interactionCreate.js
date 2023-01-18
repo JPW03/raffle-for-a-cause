@@ -5,6 +5,7 @@ const { JoinedGuilds } = require('../dbObjects.js');
 module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction) {
+        console.log(interaction);
 
         // Check if the interaction is with a role assignment message
         if (interaction.isButton() && interaction.customId.startsWith('role_')) {
@@ -93,7 +94,8 @@ module.exports = {
 
         // If there is a matching command, execute it
         try {
-            log(`User '${interaction.member.user.username}' executing /${interaction.commandName} in guild '${interaction.member.guild.name}'`);
+            // Message if command in guild
+            log(`User '${interaction.user.username}' executing /${interaction.commandName} in guild '${ (!interaction.member) ? 'DMs' : (interaction.member.guild.name) }'`);
             await command.execute(interaction);
         }
         catch (error) {
