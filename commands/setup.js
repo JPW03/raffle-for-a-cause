@@ -166,7 +166,7 @@ module.exports = {
                 }
 
                 embed.setTitle(':exclamation: Raffle For A Cause :exclamation:')
-                    .setDescription('Do you like winning prizes? Do you like donating to a good cause? Of course you do, and that\'s what Raffle For A Cause is all about!\n\nWe are a group of university students hosting online raffles to support charity fundraisers, which are promoted in this channel in this server by this bot.\n')
+                    .setDescription('Do you like winning prizes? Do you like donating to a good cause? Of course you do, and that\'s what Raffle For A Cause is all about!\n\nWe are hosting online raffles to support charity fundraisers, which are promoted in this channel in this server by this bot.\n')
                     .addFields(
                         { name: 'Want to be notified when raffles start or the winner is chosen?', value: `Press the button to assign/unassign ${roleMention(pingRole.id)}.` },
                     );
@@ -208,7 +208,7 @@ module.exports = {
                 const emojiGreenTick = ':white_check_mark:';
                 // formatEmoji('✅');
                 embed.setTitle(`${emojiGreenTick} Set up complete! ${emojiGreenTick}`);
-                embed.setDescription(`Thank you for adding ${userMention(botInGuild.id)} to your server. :heart:\n\nBy simply adding me to your server, you are helping charity fundraisers promote themselves, raise money and hopefully make a difference to someone in need.\n\nConsider sharing the bot to other servers to further support our fundraiers! Use '/invite' to obtain the bot's invite link.\n\nA message has been sent in ${channelMention(channelId)} allowing users to assign/unassign ${roleMention(pingRole.id)}. It's recommended you pin this message to the channel so it's easier to access.`);
+                embed.setDescription(`Thank you for adding ${userMention(botInGuild.id)} to your server. :heart:\n\nBy simply adding me to your server, you are helping charity fundraisers promote themselves, raise money and hopefully make a difference to someone in need.\n\nConsider sharing the bot to other servers to further support our fundraisers! Use '/invite' to obtain the bot's invite link.\n\nA message has been sent in ${channelMention(channelId)} allowing users to assign/unassign ${roleMention(pingRole.id)}. It's recommended you pin this message to the channel so it's easier to access.`);
                 embed.spliceFields(0, 1);
                 await interaction.editReply({ embeds: [embed] });
             });

@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, roleMention, EmbedBuilder, time } = require('discord.js');
 const { Raffles, Fundraisers } = require('../dbObjects.js');
-const { embedColour, botIconURL } = require('../config.json');
+const { embedColour } = require('../config.json');
 const { announceAllGuilds } = require('../handleAnnouncements.js');
 
 // The attributes of module.exports can be accessed in other files via require()
@@ -47,15 +47,14 @@ module.exports = {
                 const embed = new EmbedBuilder()
                     .setColor(embedColour)
                     .setTitle(':tickets: ' + raffle.TITLE + ' :tickets:')
-                    .setURL(raffle.URL)
-                    .setDescription(`${message}\n\nClick the link in the title if you are interested!\n\nEnds ${time(raffle.DATE_END, 'R')} (${time(raffle.DATE_END)})`)
+                    .setDescription(`${message}\n\nEnds ${time(raffle.DATE_END, 'R')} (${time(raffle.DATE_END)})`)
                     .addFields(
-                        { name: 'Fundraiser:', value: `'${fundraiser.TITLE}'\n${fundraiser.URL}` },
+                        { name: `Fundraising for '${fundraiser.TITLE}'`, value: `${fundraiser.URL}` },
                         { name: `This Fundraiser Supports ${fundraiser.CHARITY}`, value: `${fundraiser.CAUSE} For more information, click the fundraiser link.` },
                         { name: 'Tickets: ', value: `${raffle.NO_OF_TICKETS - raffle.TICKETS_SOLD} remaining, £${raffle.PRICE_PER_TICKET} per ticket` },
                         { name: 'Prizes:', value: `${raffle.PRIZE} (worth £${raffle.PRIZE_COST})` },
+                        { name: 'Join raffle here:', value: raffle.URL },
                     )
-                    .setThumbnail(botIconURL)
                     .setImage(imageURL);
 
                 // Send announcement
