@@ -126,6 +126,12 @@ module.exports = {
 
         const dbGuildArray = [(await JoinedGuilds.findOne({ where: { ID: guildId } }))];
 
+        // Validate that the guild was found
+        if (!dbGuildArray[0]) {
+            interaction.reply('Guild not found.');
+            return;
+        }
+
         const { announceToGuilds } = require('./handleAnnouncements.js');
         announceToGuilds(interaction, makeAnnouncement, dbGuildArray);
     },

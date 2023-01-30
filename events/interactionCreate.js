@@ -5,7 +5,7 @@ const { JoinedGuilds } = require('../dbObjects.js');
 module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction) {
-        console.log(interaction);
+        // console.log(interaction);
 
         // Check if the interaction is with a role assignment message
         if (interaction.isButton() && interaction.customId.startsWith('role_')) {
