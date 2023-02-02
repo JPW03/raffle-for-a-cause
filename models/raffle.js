@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         NO_OF_TICKETS: DataTypes.INTEGER,
         PRICE_PER_TICKET: DataTypes.DOUBLE,
         TICKETS_SOLD: DataTypes.INTEGER,
+        // Winner stores user ID
         WINNER: DataTypes.STRING,
         FUNDRAISER_ID: DataTypes.INTEGER,
         PRIZE_COST: DataTypes.DOUBLE,

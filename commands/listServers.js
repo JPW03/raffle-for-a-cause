@@ -15,7 +15,7 @@ module.exports = {
         const guildList = await JoinedGuilds.findAll();
 
         // For technically detailed list:
-        console.log(guildList);
+        // console.log(guildList);
 
         const guildStringList = await Promise.all(guildList.map(async guild => {
 

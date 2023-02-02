@@ -54,7 +54,7 @@ module.exports = { Raffles, Fundraisers, JoinedGuilds,
 	// For commands that edit/insert values in database tables
 	// Returns true if successful, false if error occurred
 	async editDatabaseTable(table, dbObject) {
-		console.log(dbObject);
+		// console.log(dbObject);
 
         // Update/insert data into database
 		try {
@@ -108,7 +108,7 @@ module.exports = { Raffles, Fundraisers, JoinedGuilds,
 		const entryList = await table.findAll();
 
         // For technically detailed list:
-        console.log(entryList);
+        // console.log(entryList);
 
         const stringList = await Promise.all(entryList.map(async entry => {
             let string = '';
